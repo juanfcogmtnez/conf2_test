@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+        <record id="view_equipacion_form" model="ir.ui.view">
+                <field name="name">Vista formulario de equipacion</field>
+                <field name="model">equipacion</field>
+                <field name="arch" type="xml">
+                        <form>
+                                <sheet>
+                                <div class="oe_title">
+                                        <div class="o_row">
+                                                <h1 style="display:flex;">
+                                                        <field name="equipo" class="oe_inline" placeholder="Nombre de equipo" required="1" default_focus="1">-</field>
+                                                </h1>
+                                </div>
+                                </div>
+                                <group string="Datos principales" style="margin-top:-10px">
+                                        <group>
+                                        <field name="name"/>
+                                        <field name="equipo"/>
+                                        </group>
+                                        <group>
+                                        <field name="parent_id"/>
+                                        </group>
+                                </group>
+                        </sheet>
+                        </form>
+                </field>
+        </record>
+        <record id="view_equipacion_tree" model="ir.ui.view">
+                <field name="name">Vista lista de equipacion</field>
+                <field name="model">equipacion</field>
+                <field name="arch" type="xml">
+                        <tree>
+                                <field name="parent_id"/>
+                                <field name="name"/>
+				<field name="equipo"/>
+                        </tree>
+                </field>
+        </record>
+</odoo>
+

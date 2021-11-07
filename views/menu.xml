@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+	<record id="action_open_conf2" model="ir.actions.act_window">
+		<field name="name">Configurador de equipamiento</field>
+		<field name="res_model">conf2</field>
+		<field name="view_mode">kanban,tree,graph,pivot,calendar,form</field>
+		<field name="context">{'calendar_view_ref': 'conf2.view_plan_calendar'}</field>
+	</record>
+        <record id="action_open_espacios" model="ir.actions.act_window">
+                <field name="name">Configurador de espacios</field>
+                <field name="res_model">espacios</field>
+                <field name="view_mode">tree,form</field>
+        </record>
+        <record id="action_open_equipacion" model="ir.actions.act_window">
+                <field name="name">Configurador de equipación</field>
+                <field name="res_model">equipacion</field>
+                <field name="view_mode">tree,form</field>
+        </record>
+	<menuitem id="menu_principal" name="Configurador"/>
+	<menuitem id="menu_horiz_conf2" name="Configurador" parent="menu_principal" action="action_open_conf2"/>
+	<menuitem id="menu_horiz_espacios" name="Espacios" parent="menu_principal" action="action_open_espacios"/>
+	<menuitem id="menu_horiz_equipacion" name="Equipamiento" parent="menu_principal" action="action_open_equipacion"/> 
+	<record id="view_plan_graph" model="ir.ui.view">
+		<field name="model">conf2</field>
+		<field name="arch" type="xml">
+			<graph type="bar">
+				<field name="name"/>
+				<field name="state"/>
+			</graph>
+		</field>
+	</record>
+	<record id="view_plan_pivot" model="ir.ui.view">
+	<field name="model">conf2</field>
+	<field name="arch" type="xml">
+	<pivot>
+		<field name="name" type="row"/>
+		<field name="state" type="row"/>
+	</pivot>
+	</field>
+	</record>
+
+</odoo>
+
