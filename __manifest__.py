@@ -15,6 +15,7 @@
 	'views/conf2_views.xml',
 	'views/espacios_views.xml',
 	'views/equipacion_views.xml',
-	'views/tareas_views.xml'
+	'views/tareas_views.xml',
+	'views/documental_views.xml'
 ],
 }

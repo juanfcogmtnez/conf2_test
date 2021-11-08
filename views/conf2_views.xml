@@ -23,11 +23,10 @@
 		<field name="arch" type="xml">
 		<form>
 			<header>
-				<button string="Añade local" type="object" name="create_tarea"/>
+				<button string="Añade tarea" type="object" name="create_tarea"/>
 				<field name="state" widget="statusbar"/>
 			</header>
 				<sheet>
-				<widget name="web_ribbon" title="Archivado" bg-color="bg-info" attrs="{'invisible':[('active','=',True)]}"/>
 				<div class="oe_title">
 					<div class="o_row">
 						<h1 style="display:flex;">
@@ -38,16 +37,17 @@
 				<group string="Datos principales" style="margin-top:-10px">
 					<group>
 						<field name="name"></field>
-						<field name="project_id"></field>
-						<field name="padre"></field>
-						<field name="completado"></field>
+						<field name="fecha_ini"/>
+						<field name="estudios"/>
+						<field name="plan_funcional"/>
 					</group>
 					<group>
-					<field name="create_date"/>
-					<field name="date_deadline"/>						
-					<field name="active"></field>
+						<field name="fecha_fin"/>
+						<field name="mapa"/>
+						<field name="plan_espacios"/>
+						<field name="plan_equipamiento"/>						
 					</group>
-					<field name="child_ids"></field>
+					<field name="child_ids" ></field>
 				</group>
 				</sheet>
 		</form>
@@ -56,7 +56,7 @@
 	<record id="view_tarea_calendar" model="ir.ui.view">
 	<field name="model">conf2</field>
 	<field name="arch" type="xml">
-	<calendar date_start="create_date" date_stop="date_deadline">
+	<calendar date_start="fecha_ini" date_stop="fecha_fin">
 	<field name="name"/>
 	</calendar>
 	</field>

@@ -12,6 +12,7 @@ class Tarea(models.Model):
 	fecha_fin = fields.Date(string="Fecha fin")
 	_parent_store = True
 	_parent_name = "parent_id"
+	parent_path = fields.Char(index=True)
 	child_ids =fields.One2many('espacios','parent_id', string = 'Equipos')
 	completado = fields.Float(string="% Completado",compute="_completado",stored=True)
 	state = fields.Selection(

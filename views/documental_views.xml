@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-	<record id="view_tarea_form" model="ir.ui.view">
-		<field name="name">Vista formulario de tarea</field>
-		<field name="model">tarea</field>
+	<record id="view_documental_form" model="ir.ui.view">
+		<field name="name">Vista formulario documental</field>
+		<field name="model">documental</field>
 		<field name="arch" type="xml">
 		<form>
 			<header>
-				<button string="Añade local" type="object" name="create_espacio"/>
 				<field name="state" widget="statusbar"/>
 			</header>
 				<sheet>
@@ -21,26 +20,23 @@
 					<group>
 						<field name="name"></field>
 						<field name="parent_id"></field>
-						<field name="completado"></field>
 					</group>
 					<group>
 					<field name="fecha_ini"/>
 					<field name="fecha_fin"/>						
 					</group>
-					<field name="child_ids"></field>
 				</group>
 				</sheet>
 		</form>
 		</field>
 		</record>
-	<record id="view_tareas_tree" model="ir.ui.view">
-		<field name="name">Vista lista de tareas</field>
-		<field name="model">tarea</field>
+	<record id="view_documental_tree" model="ir.ui.view">
+		<field name="name">Vista lista de documentos</field>
+		<field name="model">documental</field>
 		<field name="arch" type="xml">
 			<tree>	
 				<field name="parent_id"/>
 				<field name="name"/>
-				<field name="completado"/>
 				<field name="fecha_ini"/>
 				<field name="fecha_fin"/>
 			</tree>

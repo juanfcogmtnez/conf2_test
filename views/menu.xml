@@ -12,6 +12,12 @@
                 <field name="res_model">tarea</field>
                 <field name="view_mode">tree,form</field>
         </record>
+                <record id="action_open_documental" model="ir.actions.act_window">
+                <field name="name">Configurador de entregables</field>
+                <field name="res_model">documental</field>
+                <field name="view_mode">tree,form</field>
+        </record>
+
         <record id="action_open_espacios" model="ir.actions.act_window">
                 <field name="name">Configurador de espacios</field>
                 <field name="res_model">espacios</field>
@@ -26,7 +32,8 @@
 	<menuitem id="menu_horiz_conf2" name="Configurador" parent="menu_principal" action="action_open_conf2"/>
 	<menuitem id="menu_horiz_tareas" name="Tareas" parent="menu_principal" action="action_open_tareas"/>
 	<menuitem id="menu_horiz_espacios" name="Espacios" parent="menu_principal" action="action_open_espacios"/>
-	<menuitem id="menu_horiz_equipacion" name="Equipamiento" parent="menu_principal" action="action_open_equipacion"/> 
+	<menuitem id="menu_horiz_equipacion" name="Equipamiento" parent="menu_principal" action="action_open_equipacion"/>
+	<menuitem id="menu_horiz_documental" name="Documental" parent="menu_principal" action="action_open_documental"/> 
 	<record id="view_plan_graph" model="ir.ui.view">
 		<field name="model">conf2</field>
 		<field name="arch" type="xml">
