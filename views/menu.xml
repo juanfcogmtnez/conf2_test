@@ -9,7 +9,7 @@
 	</record>
 	        <record id="action_open_tareas" model="ir.actions.act_window">
                 <field name="name">Configurador de tareas</field>
-                <field name="res_model">tareas</field>
+                <field name="res_model">tarea</field>
                 <field name="view_mode">tree,form</field>
         </record>
         <record id="action_open_espacios" model="ir.actions.act_window">

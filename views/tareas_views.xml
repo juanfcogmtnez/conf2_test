@@ -35,7 +35,7 @@
 		</record>
 	<record id="view_tareas_tree" model="ir.ui.view">
 		<field name="name">Vista lista de tareas</field>
-		<field name="model">tareas</field>
+		<field name="model">tarea</field>
 		<field name="arch" type="xml">
 			<tree>	
 				<field name="parent_id"/>
