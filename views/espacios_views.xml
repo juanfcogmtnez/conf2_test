@@ -17,6 +17,7 @@
 				<group string="Datos principales" style="margin-top:-10px">
 					<group>
 					<field name="name"/>
+					<field name="padre"/>
 					<field name="bloque"/>
 					<field name="planta"/>
 					</group>
@@ -37,6 +38,7 @@
 		<field name="arch" type="xml">
 			<tree>	
 				<field name="parent_id"/>
+				<field name="padre"/>
 				<field name="bloque"/>
 				<field name="planta"/>
 				<field name="name"/>

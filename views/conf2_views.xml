@@ -39,6 +39,7 @@
 					<group>
 						<field name="name"></field>
 						<field name="project_id"></field>
+						<field name="padre"></field>
 						<field name="completado"></field>
 					</group>
 					<group>

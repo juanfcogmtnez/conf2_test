@@ -18,6 +18,7 @@ class Conf2(models.Model):
         	'State', default="creado")
 	child_ids =fields.One2many('espacios','parent_id', string = 'Espacios')
 	completado = fields.Float(string="% Completado",compute="_completado",stored=True)
+	padre = fields.Char(string='Tarea',related='name.name')
 	@api.depends('child_ids')
 	def _completado(self):
 		registros = 0
@@ -41,5 +42,6 @@ class Conf2(models.Model):
 
 
 	def create_espacio(self):
-		print('hola mundo!')
-		
+		logger.info('in self:',self.id)
+		registro = self.padre
+		record = self.env['espacios'].create({'parent_id':self.id})
