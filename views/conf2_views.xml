@@ -23,7 +23,7 @@
 		<field name="arch" type="xml">
 		<form>
 			<header>
-				<button string="Añade local" type="object" name="create_espacio"/>
+				<button string="Añade local" type="object" name="create_tarea"/>
 				<field name="state" widget="statusbar"/>
 			</header>
 				<sheet>

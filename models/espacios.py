@@ -14,7 +14,7 @@ class Espacios(models.Model):
 	_parent_store = True
 	_parent_name = "parent_id"
 	parent_path = fields.Char(index=True)
-	parent_id = fields.Many2one('conf2','Proyecto',index=True,ondelete='restrict')
+	parent_id = fields.Many2one('tarea','Tarea',index=True,ondelete='restrict')
 	bloque = fields.Char(string="Bloque")
 	planta = fields.Char(string="Planta")
 	local = fields.Char(string="Local")
