@@ -10,6 +10,7 @@ class Documental(models.Model):
 	parent_id = fields.Many2one('conf2','Proyecto',index=True,ondelete='restrict')
 	fecha_ini = fields.Date(string="Fecha incio")
 	fecha_fin = fields.Date(string="Fecha fin")
+	responsable = fields.Many2one('res.users','Responsable')
 	_parent_store = True
 	_parent_name = "parent_id"
 	parent_path = fields.Char(index=True)

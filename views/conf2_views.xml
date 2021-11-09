@@ -23,7 +23,7 @@
 		<field name="arch" type="xml">
 		<form>
 			<header>
-				<button string="Añade tarea" type="object" name="create_tarea"/>
+				<button string="Añade tareas" type="object" name="create_tarea"/>
 				<field name="state" widget="statusbar"/>
 			</header>
 				<sheet>
@@ -33,22 +33,88 @@
 							<field name="name" class="oe_inline" placeholder="Nombre del plan (español)" required="1" default_focus="1"></field>
 						</h1>
 					</div>
+
 				</div>				
 				<group string="Datos principales" style="margin-top:-10px">
 					<group>
-						<field name="name"></field>
 						<field name="fecha_ini"/>
-						<field name="estudios"/>
-						<field name="plan_funcional"/>
 					</group>
 					<group>
 						<field name="fecha_fin"/>
-						<field name="mapa"/>
-						<field name="plan_espacios"/>
-						<field name="plan_equipamiento"/>						
 					</group>
-					<field name="child_ids" ></field>
 				</group>
+				<notebook>
+					<page string="Estudios" name="estudios">
+					<group>
+					<group>
+					<field name="estudios"/>
+					<field name="estudios_resp"/>
+					</group>
+					<group>
+					<field name="estudios_ini"/>
+					<field name="estudios_fin"/>
+					</group>
+					</group>
+					</page>
+                                        <page string="Mapa" name="mapa">
+                                        <group>
+                                        <group>
+                                        <field name="mapa"/>
+                                        <field name="mapa_resp"/>
+                                        </group>
+                                        <group>
+                                        <field name="mapa_ini"/>
+                                        <field name="mapa_fin"/>
+                                        </group>
+                                        </group>
+                                        </page>
+					 <page string="Plan funcional" name="plan_funcional">
+                                        <group>
+                                        <group>
+                                        <field name="plan_funcional"/>
+                                        <field name="plan_funcional_resp"/>
+                                        </group>
+                                        <group>
+                                        <field name="plan_funcional_ini"/>
+                                        <field name="plan_funcional_fin"/>
+                                        </group>
+                                        </group>
+                                        </page>
+                                         <page string="Plan espacios" name="plan_espacios">
+                                        <group>
+                                        <group>
+                                        <field name="plan_espacios"/>
+                                        <field name="plan_espacios_resp"/>
+                                        </group>
+                                        <group>
+                                        <field name="plan_espacios_ini"/>
+                                        <field name="plan_espacios_fin"/>
+                                        </group>
+                                        </group>
+                                        </page>
+					 <page string="Plan equipamiento" name="plan_equipamiento">
+                                        <group>
+                                        <group>
+                                        <field name="plan_equipamiento"/>
+                                        <field name="plan_equipamiento_resp"/>
+                                        </group>
+                                        <group>
+                                        <field name="plan_equipamiento_ini"/>
+                                        <field name="plan_equipamiento_fin"/>
+                                        </group>
+                                        </group>
+                                        </page>
+					<page string="Tareas documentales" name="tareas_documentales">
+					<group>
+					<field name="child_documental_ids"/>
+					</group>
+					</page>
+					<page string="Tareas planificación" name="tareas_planif">
+					<group>
+					<field name="child_tareas_ids"/>
+					</group>
+					</page>
+				</notebook>
 				</sheet>
 		</form>
 		</field>
