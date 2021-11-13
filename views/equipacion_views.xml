@@ -2,7 +2,7 @@
 
 <odoo>
         <record id="view_equipacion_form" model="ir.ui.view">
-                <field name="name">Vista formulario de equipacion</field>
+                <field name="name">Vista formulario de equipación</field>
                 <field name="model">equipacion</field>
                 <field name="arch" type="xml">
                         <form>
@@ -10,33 +10,114 @@
                                 <div class="oe_title">
                                         <div class="o_row">
                                                 <h1 style="display:flex;">
-                                                        <field name="equipo" class="oe_inline" placeholder="Nombre de equipo" required="1" default_focus="1">-</field>
+                                                        <field name="name" class="oe_inline" placeholder="Referencia equipo cliente" required="1" default_focus="1"></field>
                                                 </h1>
                                 </div>
                                 </div>
                                 <group string="Datos principales" style="margin-top:-10px">
                                         <group>
-                                        <field name="name"/>
-                                        <field name="equipo"/>
+                                        <field name="equipo_cliente"/>
+					<field name="equipamiento_name"/>
+                                        <field name="cantidad"/>
+                                        <field name="unidad"/>
                                         </group>
                                         <group>
                                         <field name="parent_id"/>
-                                        </group>
+                                        <field name="tarea_id"/>
+                                        <field name="proyecto_id"/>
                                 </group>
+				</group>
+                                         <notebook>
+						<page string="General" name="general">
+						<group string="General" style="margin-top:-10px">
+						<group>
+						<field name="name_es"/>
+						<field name="name_fr"/>
+						<field name="name_en"/>
+						</group>
+						<group>
+						</group>
+                                        	<field name="descripcion_es" placeholder="Descripción en español..."/>
+                                        	<field name="descripcion_fr" placeholder="Description en français..."/>
+                                        	<field name="descripcion_en" placeholder="Description in english..."/>
+						</group>
+						</page>
+                                                <page string="Clasificación" name="clasificacion">
+                                                <group>
+                                                <group string="Llaves" name="llaves">
+                                                <field name="ull_ids" widget="many2many_tags"/>
+                                                <field name="sub_ull_ids" widget="many2many_tags"/>
+                                                <field name="sub_ull_2_ids" widget="many2many_tags"/>
+                                                </group>
+                                                <group string="Topología" name="topologia">
+                                                <field name="tipo"/>
+                                                <field name="sub_tipo"/>
+                                                <field name="tipo_arq"/>
+                                                </group>
+                                                </group>
+                                                </page>
+                                                <page string="Características" name="caracteristicas">
+                                                <group>
+                                                <group string="Físicas">
+                                                <field name="car_alto" string="Alto (cm)"/>
+                                                <field name="car_ancho" string="Ancho (cm)"/>
+                                                <field name="car_largo" string="Profundidad (cm)"/>
+                                                <field name="superficie" string="Superficie (m2)"/>
+                                                </group>
+                                                 <group string="Fichas">
+                                                <field name="es_datasheet_es" widget="boolean_toggle"/>
+                                                <field name="datasheet_es" filename="libro_filename" attrs="{'invisible':[('es_datasheet_es','=',False)]}"/>
+                                                <field name="datasheet_filename_es" invisible="1"/>
+                                                <field name="es_datasheet_fr" widget="boolean_toggle"/>
+                                                <field name="datasheet_fr" filename="libro_filename" attrs="{'invisible':[('es_datasheet_fr','=',False)]}"/>
+                                                <field name="datasheet_filename_fr" invisible="1"/>
+                                                <field name="es_datasheet_en" widget="boolean_toggle"/>
+                                                <field name="datasheet_en" filename="libro_filename" attrs="{'invisible':[('es_datasheet_en','=',False)]}"/>
+                                                <field name="datasheet_filename_en" invisible="1"/>
+                                                </group>
+                                                </group>
+                                                </page>
+                                                <page string="Preinstalaciones" name="preinstalaciones">
+                                                <group col="6">
+                                                <field name="estructura" string="¿Necesita el equipamiento de cambios en la estructura del edificio?"/>
+                                                <field name="conex_agua" string="¿Necesita el equipo conexión a circuito de agua corriente?"/>
+                                                <field name="conex_tta" string="¿Necesita el equipo conexión a circuito de agua especial?"/>
+                                                <field name="conex_elect" string="¿Necesita el equipo conexión a circuito de electricidad corriente?"/>
+                                                <field name="conex_ups" string="¿Necesita el equipo conexión a circuito eléctrico de emergencia?"/>
+                                                <field name="conex_com" string="¿Necesita el equipo conexión a red de comunicaciones"/>
+                                                </group>
+                                                </page>
+                                                <page string="Cotizaciones" name="cotizaciones">
+                                                <field name="seller_ids"/>
+                                                </page>
+
+                                        </notebook>
                         </sheet>
                         </form>
                 </field>
         </record>
-        <record id="view_equipacion_tree" model="ir.ui.view">
+        <record id="view_equipamiento_tree" model="ir.ui.view">
                 <field name="name">Vista lista de equipacion</field>
                 <field name="model">equipacion</field>
                 <field name="arch" type="xml">
                         <tree>
-                                <field name="parent_id"/>
-                                <field name="name"/>
-				<field name="equipo"/>
+				<field name="proyecto_id"/>
+				<field name="tarea_id"/>
+				<field name="parent_id"/>
+				<field name="name"/>
+				<field name="equipo_cliente"/>
+				<field name="cantidad"/>
+				<field name="unidad"/>
+                                <field name="equipamiento_name"/>
+                                <field name="ull_ids" widget="many2many_tags"/>
+                                <field name="sub_ull_ids" widget="many2many_tags"/>
+                                <field name="sub_ull_2_ids" widget="many2many_tags"/>
+                                <field name="tipo"/>
+                                <field name="sub_tipo"/>
+                                <field name="tipo_arq"/>
                         </tree>
                 </field>
         </record>
 </odoo>
+
 

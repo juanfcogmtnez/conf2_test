@@ -14,6 +14,7 @@ class Documental(models.Model):
 	_parent_store = True
 	_parent_name = "parent_id"
 	parent_path = fields.Char(index=True)
+	completado = fields.Float(string="Completado")
 	state = fields.Selection(
 				[
 				('creado', 'Creado'),

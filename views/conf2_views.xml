@@ -31,6 +31,7 @@
 					<div class="o_row">
 						<h1 style="display:flex;">
 							<field name="name" class="oe_inline" placeholder="Nombre del plan (español)" required="1" default_focus="1"></field>
+							<field name="completado" widget="progressbar"/>
 						</h1>
 					</div>
 
@@ -127,5 +128,17 @@
 	</calendar>
 	</field>
 	</record>
-	
+	<record id="view_conf2_tree" model="ir.ui.view">
+		<field name="name">Vista lista de proyectos</field>
+		<field name="model">conf2</field>
+		<field name="arch" type="xml">
+		<tree>
+		<field name="name" />
+		<field name="state"/>
+		<field name="completado" widget="progressbar"/>
+		<field name="fecha_ini"/>
+		<field name="fecha_fin"/>
+		</tree>
+		</field>
+	</record>
 </odoo>

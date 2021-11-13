@@ -42,7 +42,8 @@ class Conf2(models.Model):
 	plan_equipamiento_fin = fields.Date(string="Fecha Fin (estimada)")
 	plan_equipamiento_resp = fields.Many2one('res.users','Responsable realizacion')
 	plan_equipamiento_resp_id = fields.Integer(related='plan_equipamiento_resp.id',readonly=True)
-
+	progreso_tareas_ids = fields.Float(related="child_tareas_ids.completado")
+	completado = fields.Float(string="Completado", default=0.0,compute="_progreso")
 	def create_tarea(self):
 		logger.info('in self:',self.id)
 		logger.info('estudios:',self.estudios)
@@ -84,3 +85,55 @@ class Conf2(models.Model):
 				record = self.env['tarea'].create({'parent_id':self.id,'name':tarea+' '+nombre,'fecha_ini':self.plan_equipamiento_ini,'fecha_fin':self.plan_equipamiento_fin,'responsable':self.plan_equipamiento_resp_id})
 			if tarea == 'plan de espacios obl':
 				record = self.env['tarea'].create({'parent_id':self.id,'name':tarea+' '+nombre,'fecha_ini':self.plan_equipamiento_ini,'fecha_fin':self.plan_equipamiento_fin,'responsable':self.plan_equipamiento_resp_id})
+	api.onchange('child_tareas_ids','child_documental_ids')
+	def _progreso(self):
+
+		p_tareas = self.env['tarea'].search(
+		[
+			('parent_id','=',self.id)
+		])
+		print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!PTAREAS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',p_tareas)
+		logger.info('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!TYPE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',type(p_tareas))
+		completado = 0.0
+		suma_tareas = 0.0
+		lontar = len(p_tareas)
+		logger.info('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!CANTIDAD TAREAS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',lontar)
+		if lontar > 0:
+			for p_tarea in p_tareas:
+				suma_tareas = suma_tareas + p_tarea.completado
+				logger.info('!!!!!!!!!!!!!!!!!!!!!!ptarea!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',p_tarea.completado)
+		else:
+			suma_tareas = 0.0
+		if suma_tareas > 0:
+			completado_tareas = (suma_tareas / lontar)
+		else :
+			completado_tareas = 0.0
+
+		p_documentales = self.env['documental'].search(
+		[
+			('parent_id','=',self.id)
+		])
+		logger.info('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!PDOCUMENTALES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',p_documentales)
+		logger.info('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!TYPE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',type(p_documentales))
+		completado = 0.0
+		suma_documentales = 0.0
+		londoc = len(p_documentales)
+		logger.info('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!CANTIDAD DOCUMENTALES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',londoc)
+		if londoc > 0:
+			for p_documental in p_documentales:
+				suma_documentales = suma_documentales + p_documental.completado
+				logger.info('!!!!!!!!!!!!!!!!!!!!!!ptarea!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',p_documental.completado)
+		else:
+			suma_documentales = 0.0
+
+		if suma_documentales > 0:
+			completado_documentales = (suma_documentales / londoc)
+		else:
+			completado_documentales = 0.0
+
+		if completado_tareas > 0 or completado_documentales > 0:
+			self.completado = (completado_tareas + completado_documentales)/2
+		else:
+			self.completado = 0.0
+
+	

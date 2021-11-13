@@ -2,7 +2,7 @@
 
 <odoo>
 	<record id="view_espacios_form" model="ir.ui.view">
-		<field name="name">Vista formulario de espacio</field>
+		<field name="name">Vista formulario de locales</field>
 		<field name="model">espacios</field>
 		<field name="arch" type="xml">
 			<form>
@@ -17,12 +17,14 @@
 				<group string="Datos principales" style="margin-top:-10px">
 					<group>
 					<field name="name"/>
-					<field name="padre"/>
-					<field name="bloque"/>
-					<field name="planta"/>
+					<field name="local"/>
+					<field name="sub_local"/>
+					<field name="proyecto_id"/>
+					<field name="parent_id"/>
 					</group>
 					<group>
-					<field name="parent_id" context="{'parent_id': active_id, 'parent_model': 'conf2'}"/>
+					<field name="bloque"/>
+					<field name="planta"/>
 					<field name="superficie"></field>
 					<field name="ull_id"></field>
 				</group>
@@ -33,16 +35,17 @@
 		</field>
 	</record>
 	<record id="view_espacios_tree" model="ir.ui.view">
-		<field name="name">Vista lista de espacios</field>
+		<field name="name">Vista lista de locales</field>
 		<field name="model">espacios</field>
 		<field name="arch" type="xml">
 			<tree>	
+				<field name="proyecto_id"/>
 				<field name="parent_id"/>
-				<field name="padre"/>
 				<field name="bloque"/>
 				<field name="planta"/>
 				<field name="name"/>
 				<field name="local"/>
+				<field name="sub_local"/>
 				<field name="superficie"/>
 				<field name="ull_id"/>
 			</tree>
