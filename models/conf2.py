@@ -171,3 +171,23 @@ class Conf2(models.Model):
 		self.change_state('revision')
 	def make_enviado(self):
 		self.change_state('enviado')
+	def ver_tareas(self):
+		logger.info('hola soy el boton tareas filtradas')
+		logger.info('soy el self')
+		logger.info(self)
+		logger.info('somos los records')
+		for record in self:
+			logger.info(record)
+		logger.info('hola soy')
+		logger.info(record.name)
+		view_id = self.env.ref('conf2.view_tareas_tree').id
+		return{
+			'name':'Lista de tareas de proyecto',
+			'view_mode':'tree',
+			'views':[[view_id,'tree']],
+			'res_model':'tarea',
+			'type':'ir.actions.act_window',
+			'domain':[('parent_id','=',record.name)],
+			'target':'current',
+		}
+

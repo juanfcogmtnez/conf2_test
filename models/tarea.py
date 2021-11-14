@@ -52,5 +52,3 @@ class Tarea(models.Model):
 		logger.info('in self:',self.id)
 		registro = self.padre
 		record = self.env['espacios'].create({'parent_id':self.id})
-
-

@@ -25,6 +25,7 @@
 		<form>
 			<header>
 				<button string="Añade tareas" type="object" name="create_tarea"/>
+				<button string="Ver tareas" type="object" name="ver_tareas" class="btn-info"/>
 				<button name="make_curso" string="Establecer en curso" type="object"/>
 				<button name="make_revision" string="Establecer en revisión" type="object"/>
 				<button name="make_enviado" string="Establecer como enviado" type="object"/>
