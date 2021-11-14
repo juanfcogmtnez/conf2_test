@@ -2,6 +2,8 @@
 
 import logging
 from odoo import fields, models, api
+from odoo.exceptions import UserError
+from odoo.tools.translate import _
 logger = logging.getLogger(__name__)
 
 class Conf2(models.Model):
@@ -88,49 +90,50 @@ class Conf2(models.Model):
 
 	@api.depends('child_tareas_ids','child_documental_ids')
 	def _progreso(self):
-		logger.info('HOLA')
-		logger.info(self.id)
-		logger.info(self.child_tareas_ids)
-		tareas = self.child_tareas_ids
-		logger.info('len tareas')
-		logger.info(len(tareas))
-		if len(tareas) > 0:
-			logger.info('+ de 0 tareas')
-			completado = 0.0
-			n_tareas = 0
-			for tarea in tareas:
-				logger.info(tarea.id)
-				completado = completado + self.env['tarea'].search([('id','=',tarea.id)]).completado
-				n_tareas = n_tareas + 1
-		else:
-			n_tareas = 0
-			completado = 0.0
-		logger.info('completado en tareas')
-		logger.info(completado)
-		logger.info('n_tareas en tareas')
-		logger.info(n_tareas)
-		documentales = self.child_documental_ids
-		logger.info('documentales')
-		logger.info(documentales)
-		if len(documentales) > 0:
-			logger.info('+ de 0 documental')
-			for documental in documentales:
-				logger.info(documental.id)
-				completado = completado + self.env['documental'].search([('id','=',documental.id)]).completado
-				n_tareas = n_tareas + 1
-		logger.info('completado en documental')
-		logger.info(completado)
-		logger.info('n_tareas en documental')
-		logger.info(n_tareas)
+		for record in self:
+			logger.info('HOLA')
+			logger.info(record.id)
+			logger.info(record.child_tareas_ids)
+			tareas = record.child_tareas_ids
+			logger.info('len tareas')
+			logger.info(len(tareas))
+			if len(tareas) > 0:
+				logger.info('+ de 0 tareas')
+				completado = 0.0
+				n_tareas = 0
+				for tarea in tareas:
+					logger.info(tarea.id)
+					completado = completado + self.env['tarea'].search([('id','=',tarea.id)]).completado
+					n_tareas = n_tareas + 1
+			else:
+				n_tareas = 0
+				completado = 0.0
+			logger.info('completado en tareas')
+			logger.info(completado)
+			logger.info('n_tareas en tareas')
+			logger.info(n_tareas)
+			documentales = record.child_documental_ids
+			logger.info('documentales')
+			logger.info(documentales)
+			if len(documentales) > 0:
+				logger.info('+ de 0 documental')
+				for documental in documentales:
+					logger.info(documental.id)
+					completado = completado + self.env['documental'].search([('id','=',documental.id)]).completado
+					n_tareas = n_tareas + 1
+			logger.info('completado en documental')
+			logger.info(completado)
+			logger.info('n_tareas en documental')
+			logger.info(n_tareas)
 
-		if completado > 0.0:
-			logger.info('completado + de 0.0')
-			total_completado = completado / n_tareas
-			logger.info('total completado')
-			logger.info(total_completado)
-			self.completado = total_completado
-		else:
-			self.completado = 0.0
+			if completado > 0.0:
+				logger.info('completado + de 0.0')
+				total_completado = completado / n_tareas
+				logger.info('total completado')
+				logger.info(total_completado)
+				record.completado = total_completado
+			else:
+				record.completado = 0.0
 	@api.model
 	def is_allowed_transition(self, old_state , new_state):
 		logger.info('allowed?')
@@ -160,7 +163,8 @@ class Conf2(models.Model):
 				logger.info('dentro del if')
 				project.state = new_state
 			else:
-				continue
+				msg = _('Establecer desde %s a %s no está permitido') % (project.state, new_state)
+				raise UserError(msg)
 	def make_curso(self):
 		self.change_state('curso')
 	def make_revision(self):
