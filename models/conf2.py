@@ -8,11 +8,11 @@ class Conf2(models.Model):
 	_name = "conf2"
 	name = fields.Char(string="Proyecto",required=True)
 	state = fields.Selection(
-        	[('creado', 'Creado'),
-         	('curso', 'En curso'),
-         	('revision', 'En revision'),
-		('enviado','Enviado')],
-        	'State', default="creado")
+				[('creado','Creado'),
+				 ('curso','En curso'),
+				 ('revision','En revisión'),
+				 ('enviado','Enviado')],
+				default='creado',string="Estado")
 	fecha_ini = fields.Date(string="Fecha Inicio")
 	fecha_fin = fields.Date(string="Fecha Fin")
 	child_tareas_ids =fields.One2many('tarea','parent_id', string = 'Tareas configuración')
@@ -43,7 +43,7 @@ class Conf2(models.Model):
 	plan_equipamiento_resp = fields.Many2one('res.users','Responsable realizacion')
 	plan_equipamiento_resp_id = fields.Integer(related='plan_equipamiento_resp.id',readonly=True)
 	progreso_tareas_ids = fields.Float(related="child_tareas_ids.completado")
-	completado = fields.Float(string="Completado", default=0.0,compute="_progreso")
+	completado = fields.Float(string="Completado", default=0.0,compute="_progreso",stored=True)
 	def create_tarea(self):
 		logger.info('in self:',self.id)
 		logger.info('estudios:',self.estudios)
@@ -85,55 +85,85 @@ class Conf2(models.Model):
 				record = self.env['tarea'].create({'parent_id':self.id,'name':tarea+' '+nombre,'fecha_ini':self.plan_equipamiento_ini,'fecha_fin':self.plan_equipamiento_fin,'responsable':self.plan_equipamiento_resp_id})
 			if tarea == 'plan de espacios obl':
 				record = self.env['tarea'].create({'parent_id':self.id,'name':tarea+' '+nombre,'fecha_ini':self.plan_equipamiento_ini,'fecha_fin':self.plan_equipamiento_fin,'responsable':self.plan_equipamiento_resp_id})
-	api.onchange('child_tareas_ids','child_documental_ids')
+
+	@api.depends('child_tareas_ids','child_documental_ids')
 	def _progreso(self):
-
-		p_tareas = self.env['tarea'].search(
-		[
-			('parent_id','=',self.id)
-		])
-		print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!PTAREAS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',p_tareas)
-		logger.info('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!TYPE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',type(p_tareas))
-		completado = 0.0
-		suma_tareas = 0.0
-		lontar = len(p_tareas)
-		logger.info('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!CANTIDAD TAREAS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',lontar)
-		if lontar > 0:
-			for p_tarea in p_tareas:
-				suma_tareas = suma_tareas + p_tarea.completado
-				logger.info('!!!!!!!!!!!!!!!!!!!!!!ptarea!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',p_tarea.completado)
+		logger.info('HOLA')
+		logger.info(self.id)
+		logger.info(self.child_tareas_ids)
+		tareas = self.child_tareas_ids
+		logger.info('len tareas')
+		logger.info(len(tareas))
+		if len(tareas) > 0:
+			logger.info('+ de 0 tareas')
+			completado = 0.0
+			n_tareas = 0
+			for tarea in tareas:
+				logger.info(tarea.id)
+				completado = completado + self.env['tarea'].search([('id','=',tarea.id)]).completado
+				n_tareas = n_tareas + 1
 		else:
-			suma_tareas = 0.0
-		if suma_tareas > 0:
-			completado_tareas = (suma_tareas / lontar)
-		else :
-			completado_tareas = 0.0
+			n_tareas = 0
+			completado = 0.0
+		logger.info('completado en tareas')
+		logger.info(completado)
+		logger.info('n_tareas en tareas')
+		logger.info(n_tareas)
+		documentales = self.child_documental_ids
+		logger.info('documentales')
+		logger.info(documentales)
+		if len(documentales) > 0:
+			logger.info('+ de 0 documental')
+			for documental in documentales:
+				logger.info(documental.id)
+				completado = completado + self.env['documental'].search([('id','=',documental.id)]).completado
+				n_tareas = n_tareas + 1
+		logger.info('completado en documental')
+		logger.info(completado)
+		logger.info('n_tareas en documental')
+		logger.info(n_tareas)
 
-		p_documentales = self.env['documental'].search(
-		[
-			('parent_id','=',self.id)
-		])
-		logger.info('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!PDOCUMENTALES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',p_documentales)
-		logger.info('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!TYPE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',type(p_documentales))
-		completado = 0.0
-		suma_documentales = 0.0
-		londoc = len(p_documentales)
-		logger.info('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!CANTIDAD DOCUMENTALES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',londoc)
-		if londoc > 0:
-			for p_documental in p_documentales:
-				suma_documentales = suma_documentales + p_documental.completado
-				logger.info('!!!!!!!!!!!!!!!!!!!!!!ptarea!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',p_documental.completado)
-		else:
-			suma_documentales = 0.0
-
-		if suma_documentales > 0:
-			completado_documentales = (suma_documentales / londoc)
-		else:
-			completado_documentales = 0.0
-
-		if completado_tareas > 0 or completado_documentales > 0:
-			self.completado = (completado_tareas + completado_documentales)/2
+		if completado > 0.0:
+			logger.info('completado + de 0.0')
+			total_completado = completado / n_tareas
+			logger.info('total completado')
+			logger.info(total_completado)
+			self.completado = total_completado
 		else:
 			self.completado = 0.0
-
+	@api.model
+	def is_allowed_transition(self, old_state , new_state):
+		logger.info('allowed?')
+		logger.info('este es el self')
+		logger.info(self)
+		logger.info('este es el old_state')
+		logger.info(old_state)
+		logger.info('este es el new_state')
+		logger.info(new_state)
+		allowed = [('creado','curso'),
+			   ('curso','revision'),
+			   ('revision','enviado'),
+			   ('enviado','revision'),
+			   ('revision','curso'),
+			   ('curso','creado')]
+		return (old_state, new_state) in allowed
 	
+	def change_state(self, new_state):
+		logger.info('cambiando estado')
+		logger.info('este es el self')
+		logger.info(self)
+		logger.info('este es el nuevo estado')
+		logger.info(new_state)
+		for project in self:
+			logger.info('dentro del for')
+			if project.is_allowed_transition(project.state,new_state):
+				logger.info('dentro del if')
+				project.state = new_state
+			else:
+				continue
+	def make_curso(self):
+		self.change_state('curso')
+	def make_revision(self):
+		self.change_state('revision')
+	def make_enviado(self):
+		self.change_state('enviado')
