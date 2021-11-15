@@ -1,18 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+		<record id="kanban_documental" model="ir.ui.view">
+		<field name="name">documental.kanban</field>
+		<field name="model">documental</field>
+		<field name="arch" type="xml">
+		<kanban default_group_by="state">
+		<field name="state" />
+		<field name="name" />
+		<templates>
+			<t t-name="kanban-box">
+				<div class="oe_kanban_card oe_kanban_global_click">
+					<field name="name" />
+					<field name="completado" widget="progressbar"/>
+				</div>
+			</t>
+		</templates>
+		</kanban>
 	<record id="view_documental_form" model="ir.ui.view">
 		<field name="name">Vista formulario documental</field>
 		<field name="model">documental</field>
 		<field name="arch" type="xml">
 		<form>
 			<header>
+				<button name="make_curso" string="Establecer en curso" type="object"/>
+				<button name="make_revision" string="Establecer en revisión" type="object"/>
+				<button name="make_enviado" string="Establecer como enviado" type="object"/>
 				<field name="state" widget="statusbar"/>
 			</header>
 				<sheet>
 				<div class="oe_title">
 					<div class="o_row">
 						<h1 style="display:flex;">
-							<field name="name" class="oe_inline" placeholder="Nombre de tarea" required="1" default_focus="1"></field>
+							<field name="name" class="oe_inline" placeholder="Nombre de entregable" required="1" default_focus="1"></field>
 						</h1>
 					</div>
 				</div>				

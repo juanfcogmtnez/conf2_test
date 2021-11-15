@@ -6,6 +6,14 @@
 		<field name="model">espacios</field>
 		<field name="arch" type="xml">
 			<form>
+				<header>
+				<button string="Añade equipo" type="object" name="create_equipo"/>
+				<button string="Ver equipos" type="object" name="ver_equipos" class="btn-info"/>
+				<button name="make_curso" string="Establecer en curso" type="object"/>
+				<button name="make_revision" string="Establecer en revisión" type="object"/>
+				<button name="make_enviado" string="Establecer como enviado" type="object"/>
+				<field name="state" widget="statusbar"/>
+			</header>
 				<sheet>
 				<div class="oe_title">
 					<div class="o_row">

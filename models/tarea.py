@@ -26,9 +26,6 @@ class Tarea(models.Model):
 				default='creado',string="Estado",group_expand='_get_stages'
 				)
 
-	def _completado(self):
-		self.completado = 0.0
-
 	def create_espacio(self):
 		for record in self:
 			logger.info('aqui van los records')
