@@ -27,9 +27,14 @@ class Tarea(models.Model):
 								],
 								'State', default="creado"
 								)
-	
+
+	def _completado(self):
+		self.completado = 0.0
+
+	'''
 	@api.depends('child_ids')
 	def _completado(self):
+		logger.info('aquí la funcion completado')
 		registros = 0
 		grabados = 0
 		for record in self:
@@ -47,8 +52,13 @@ class Tarea(models.Model):
 				self.completado = (grabados*100)/registros
 			else:
 				self.completado = 0
-
+	'''
 	def create_espacio(self):
-		logger.info('in self:',self.id)
-		registro = self.padre
-		record = self.env['espacios'].create({'parent_id':self.id})
+		for record in self:
+			logger.info('aqui van los records')
+			logger.info(record)
+		logger.info('in record:',record.id)
+		logger.info('boton crear local')
+		logger.info('este es mi padre')
+		logger.info(record.parent_id.id)
+		record = self.env['espacios'].create({'parent_id':record.id,'proyecto_id':record.parent_id.id})

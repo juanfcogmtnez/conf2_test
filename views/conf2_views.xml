@@ -88,7 +88,7 @@
                                         </page>
                                          <page string="Plan de equipamiento/Espacios" name="plan_espacios">
                                         <group>
-                                        <group>
+                                        <group string="Tareas configuración">
                                         <field name="plan_espacios"/>
                                         <field name="plan_espacios_resp"/>
                                         </group>
@@ -101,6 +101,7 @@
 					<page string="Tareas planificación" name="tareas_planif">
 					<group>
 					<field name="child_tareas_ids"/>
+					<field name="child_documental_ids"/>
 					</group>
 					</page>
 				</notebook>
