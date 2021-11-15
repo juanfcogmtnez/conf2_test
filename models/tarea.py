@@ -17,16 +17,12 @@ class Tarea(models.Model):
 	child_ids =fields.One2many('espacios','parent_id', string = 'Equipos')
 	completado = fields.Float(string="% Completado",compute="_completado",stored=True)
 	state = fields.Selection(
-								[
-								('creado', 'Creado'),
-								('espacios', 'Obteniendo plan de espacios'),
-								('equipando', 'Equipando'),
-								('definiendo','Definiendo marcas/modelos'),
-								('consolidado','Consolidado'),
-								('enviado','Enviado')
-								],
-								'State', default="creado"
-								)
+				[('creado','Creado'),
+				 ('curso','En curso'),
+				 ('revision','En revisión'),
+				 ('enviado','Enviado')],
+				default='creado',string="Estado",group_expand='_get_stages'
+				)
 
 	def _completado(self):
 		self.completado = 0.0
@@ -62,3 +58,65 @@ class Tarea(models.Model):
 		logger.info('este es mi padre')
 		logger.info(record.parent_id.id)
 		record = self.env['espacios'].create({'parent_id':record.id,'proyecto_id':record.parent_id.id})
+
+	@api.model
+	def is_allowed_transition(self, old_state , new_state):
+		logger.info('allowed?')
+		logger.info('este es el self')
+		logger.info(self)
+		logger.info('este es el old_state')
+		logger.info(old_state)
+		logger.info('este es el new_state')
+		logger.info(new_state)
+		allowed = [('creado',''),
+			   ('curso','revision'),
+			   ('revision','enviado'),
+			   ('enviado','revision'),
+			   ('revision','curso'),
+			   ('curso','creado')]
+		return (old_state, new_state) in allowed
+	
+	def change_state(self, new_state):
+		logger.info('cambiando estado')
+		logger.info('este es el self')
+		logger.info(self)
+		logger.info('este es el nuevo estado')
+		logger.info(new_state)
+		for project in self:
+			logger.info('dentro del for')
+			if project.is_allowed_transition(project.state,new_state):
+				logger.info('dentro del if')
+				project.state = new_state
+			else:
+				msg = _('Establecer desde %s a %s no está permitido') % (project.state, new_state)
+				raise UserError(msg)
+	def make_curso(self):
+		self.change_state('curso')
+	def make_revision(self):
+		self.change_state('revision')
+	def make_enviado(self):
+		self.change_state('enviado')
+	def ver_espacios(self):
+		logger.info('hola soy el boton de espacios filtrados')
+		logger.info('soy el self')
+		logger.info(self)
+		logger.info('somos los records')
+		for record in self:
+			logger.info(record)
+		logger.info('hola soy')
+		logger.info(record.name)
+		view_id = self.env.ref('conf2.view_espacios_tree').id
+		return{
+			'name':'Lista de espacios de proyecto',
+			'view_type':'form',
+			'view_mode':'tree',
+			'views':[[view_id,'tree']],
+			'res_model':'espacios',
+			'type':'ir.actions.act_window',
+			'domain':[('parent_id','=',record.name)],
+			'target':'current',
+		}
+
+	def _get_stages(self, states, domain, order):
+		
+		return ['creado','curso','revision','enviado']

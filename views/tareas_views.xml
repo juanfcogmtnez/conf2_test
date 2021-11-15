@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+		<record id="kanban_tareas" model="ir.ui.view">
+		<field name="name">tareas.kanban</field>
+		<field name="model">tarea</field>
+		<field name="arch" type="xml">
+		<kanban default_group_by="state">
+		<field name="state" />
+		<field name="name" />
+		<templates>
+			<t t-name="kanban-box">
+				<div class="oe_kanban_card oe_kanban_global_click">
+					<field name="name" />
+					<field name="completado" widget="progressbar"/>
+				</div>
+			</t>
+		</templates>
+		</kanban>
+		</field>
+		</record>
 	<record id="view_tarea_form" model="ir.ui.view">
 		<field name="name">Vista formulario de tarea</field>
 		<field name="model">tarea</field>
@@ -7,6 +25,10 @@
 		<form>
 			<header>
 				<button string="Añade local" type="object" name="create_espacio"/>
+				<button string="Ver locales" type="object" name="ver_espacios" class="btn-info"/>
+				<button name="make_curso" string="Establecer en curso" type="object"/>
+				<button name="make_revision" string="Establecer en revisión" type="object"/>
+				<button name="make_enviado" string="Establecer como enviado" type="object"/>
 				<field name="state" widget="statusbar"/>
 			</header>
 				<sheet>
