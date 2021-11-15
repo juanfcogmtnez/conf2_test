@@ -4,7 +4,7 @@
 		<field name="name">planes.kanban</field>
 		<field name="model">conf2</field>
 		<field name="arch" type="xml">
-		<kanban default_group_by="state" group_create="true">
+		<kanban default_group_by="state">
 		<field name="state" />
 		<field name="name" />
 		<templates>
@@ -86,7 +86,7 @@
                                         </group>
                                         </group>
                                         </page>
-                                         <page string="Plan espacios" name="plan_espacios">
+                                         <page string="Plan de equipamiento/Espacios" name="plan_espacios">
                                         <group>
                                         <group>
                                         <field name="plan_espacios"/>
@@ -98,23 +98,6 @@
                                         </group>
                                         </group>
                                         </page>
-					 <page string="Plan equipamiento" name="plan_equipamiento">
-                                        <group>
-                                        <group>
-                                        <field name="plan_equipamiento"/>
-                                        <field name="plan_equipamiento_resp"/>
-                                        </group>
-                                        <group>
-                                        <field name="plan_equipamiento_ini"/>
-                                        <field name="plan_equipamiento_fin"/>
-                                        </group>
-                                        </group>
-                                        </page>
-					<page string="Tareas documentales" name="tareas_documentales">
-					<group>
-					<field name="child_documental_ids"/>
-					</group>
-					</page>
 					<page string="Tareas planificación" name="tareas_planif">
 					<group>
 					<field name="child_tareas_ids"/>

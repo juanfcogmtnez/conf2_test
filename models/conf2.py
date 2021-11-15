@@ -14,7 +14,8 @@ class Conf2(models.Model):
 				 ('curso','En curso'),
 				 ('revision','En revisión'),
 				 ('enviado','Enviado')],
-				default='creado',string="Estado")
+				default='creado',string="Estado",group_expand='_get_stages'
+				)
 	fecha_ini = fields.Date(string="Fecha Inicio")
 	fecha_fin = fields.Date(string="Fecha Fin")
 	child_tareas_ids =fields.One2many('tarea','parent_id', string = 'Tareas configuración')
@@ -73,19 +74,17 @@ class Conf2(models.Model):
 			tareas.append('plan de espacios')
 		for documental in documentales:
 			if documental == 'estudio':
-				record = self.env['documental'].create({'parent_id':self.id,'name':documental+' '+nombre,'fecha_ini':self.estudios_ini,'fecha_fin':self.estudios_fin,'responsable':self.estudios_resp_id})
+				record = self.env['tarea'].create({'parent_id':self.id,'name':documental+' '+nombre,'fecha_ini':self.estudios_ini,'fecha_fin':self.estudios_fin,'responsable':self.estudios_resp_id})
 			if documental  == 'mapa' :
-				record = self.env['documental'].create({'parent_id':self.id,'name':documental+' '+nombre,'fecha_ini':self.mapa_ini,'fecha_fin':self.mapa_fin,'responsable':self.mapa_resp_id})
+				record = self.env['tarea'].create({'parent_id':self.id,'name':documental+' '+nombre,'fecha_ini':self.mapa_ini,'fecha_fin':self.mapa_fin,'responsable':self.mapa_resp_id})
 			if documental == 'plan funcional':
-				record = self.env['documental'].create({'parent_id':self.id,'name':documental+' '+nombre,'fecha_ini':self.plan_funcional_ini,'fecha_fin':self.plan_funcional_fin,'responsable':self.plan_funcional_resp_id})
+				record = self.env['tarea'].create({'parent_id':self.id,'name':documental+' '+nombre,'fecha_ini':self.plan_funcional_ini,'fecha_fin':self.plan_funcional_fin,'responsable':self.plan_funcional_resp_id})
 
 
 		for tarea in tareas:
 			if tarea == 'plan de espacios':
 				record = self.env['tarea'].create({'parent_id':self.id,'name':tarea+' '+nombre,'fecha_ini':self.plan_espacios_ini,'fecha_fin':self.plan_espacios_fin,'responsable':self.plan_espacios_resp_id})
 			if tarea == 'plan de equipamiento':
-				record = self.env['tarea'].create({'parent_id':self.id,'name':tarea+' '+nombre,'fecha_ini':self.plan_equipamiento_ini,'fecha_fin':self.plan_equipamiento_fin,'responsable':self.plan_equipamiento_resp_id})
-			if tarea == 'plan de espacios obl':
 				record = self.env['tarea'].create({'parent_id':self.id,'name':tarea+' '+nombre,'fecha_ini':self.plan_equipamiento_ini,'fecha_fin':self.plan_equipamiento_fin,'responsable':self.plan_equipamiento_resp_id})
 
 	@api.depends('child_tareas_ids','child_documental_ids')
@@ -191,3 +190,6 @@ class Conf2(models.Model):
 			'target':'current',
 		}
 
+	def _get_stages(self, states, domain, order):
+		
+		return ['creado','curso','revision','enviado']
