@@ -180,7 +180,7 @@ class Conf2(models.Model):
 		return{
 			'name':'Lista de tareas de proyecto',
 			'view_type':'form',
-			'view_mode':'tree',
+			'view_mode':'kanban,tree',
 			'views':[[view_id,'tree']],
 			'res_model':'tarea',
 			'type':'ir.actions.act_window',

@@ -10,7 +10,7 @@
 	        <record id="action_open_tareas" model="ir.actions.act_window">
                 <field name="name">Configurador de tareas</field>
                 <field name="res_model">tarea</field>
-                <field name="view_mode">tree,form</field>
+                <field name="view_mode">kanban,tree,form</field>
         </record>
                 <record id="action_open_documental" model="ir.actions.act_window">
                 <field name="name">Configurador de entregables</field>

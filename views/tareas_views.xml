@@ -36,6 +36,7 @@
 					<div class="o_row">
 						<h1 style="display:flex;">
 							<field name="name" class="oe_inline" placeholder="Nombre de tarea" required="1" default_focus="1"></field>
+							<field name="completado" widget="progressbar"/>
 						</h1>
 					</div>
 				</div>				
@@ -43,7 +44,6 @@
 					<group>
 						<field name="name"></field>
 						<field name="parent_id"></field>
-						<field name="completado"></field>
 					</group>
 					<group>
 					<field name="fecha_ini"/>

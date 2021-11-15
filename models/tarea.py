@@ -2,6 +2,8 @@
 
 import logging
 from odoo import fields, models, api
+from odoo.exceptions import UserError
+from odoo.tools.translate import _
 logger = logging.getLogger(__name__)
 
 class Tarea(models.Model):
@@ -15,7 +17,7 @@ class Tarea(models.Model):
 	_parent_name = "parent_id"
 	parent_path = fields.Char(index=True)
 	child_ids =fields.One2many('espacios','parent_id', string = 'Equipos')
-	completado = fields.Float(string="% Completado",compute="_completado",stored=True)
+	completado = fields.Float(string="% Completado")
 	state = fields.Selection(
 				[('creado','Creado'),
 				 ('curso','En curso'),
@@ -27,28 +29,6 @@ class Tarea(models.Model):
 	def _completado(self):
 		self.completado = 0.0
 
-	'''
-	@api.depends('child_ids')
-	def _completado(self):
-		logger.info('aquí la funcion completado')
-		registros = 0
-		grabados = 0
-		for record in self:
-			for linea in record.child_ids:
-				logger.info(linea)
-				registros = registros +1
-				logger.info('caracteres ull:',len(linea.ull_id))
-				if len(linea.ull_id) < 1:
-					grabados = grabados
-				else:
-					grabados = grabados + 1
-				logger.info('registros:',registros)
-				logger.info('grabados:',grabados)
-			if registros != 0:	
-				self.completado = (grabados*100)/registros
-			else:
-				self.completado = 0
-	'''
 	def create_espacio(self):
 		for record in self:
 			logger.info('aqui van los records')
@@ -68,7 +48,7 @@ class Tarea(models.Model):
 		logger.info(old_state)
 		logger.info('este es el new_state')
 		logger.info(new_state)
-		allowed = [('creado',''),
+		allowed = [('creado','curso'),
 			   ('curso','revision'),
 			   ('revision','enviado'),
 			   ('enviado','revision'),
